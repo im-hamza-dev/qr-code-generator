@@ -16,7 +16,7 @@ const port = process.env.PORT | 5000;
 // Configure Multer for file upload
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: "*",
   }),
   bodyParser.json()
 );

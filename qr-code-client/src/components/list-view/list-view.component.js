@@ -4,7 +4,7 @@ import axios from "axios";
 
 const ListView = () => {
   let qrCode = {
-    redirectUrl: "http://localhost:5000/api/scan/5",
+    redirectUrl: "https://qr-code-generator-v2-api.vercel.app/api/scan/5", //"http://localhost:5000/api/scan/5",
     title: "Test QR code",
     squareColor: "black",
     eyeColor: "white",
