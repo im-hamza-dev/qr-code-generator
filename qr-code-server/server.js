@@ -15,7 +15,8 @@ const httpServer = createServer(app);
 const port = process.env.PORT | 5000;
 
 // Configure Multer for file upload
-app.use(cors(), bodyParser.json());
+app.use(bodyParser.json());
+app.use(cors());
 app.options("*", cors());
 
 app.post("/api/scan/:id", async (req, res) => {
@@ -43,15 +44,11 @@ app.post("/api/scan/:id", async (req, res) => {
       macAddress: macAddress,
       scanDate: scanDate,
       userAgent: userAgent,
+      country: country,
     });
   } catch (err) {
     res.status(500).json({
       error: err.message,
-      ip: ip,
-      macAddress: macAddress,
-      scanDate: scanDate,
-      userAgent: userAgent,
-      country: country,
     });
   }
 });
