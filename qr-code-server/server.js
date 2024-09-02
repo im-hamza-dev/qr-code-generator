@@ -108,19 +108,17 @@ app.post("/api/scan/:id", async (req, res) => {
     res.json({
       message: "success",
       ip,
-      // data: {
-      //   req,
-      //   ip,
-      //   macAddress,
-      //   // geo: JSON.stringify(geo),
-      //   scanDate,
-      //   userAgent,
-      // },
+      macAddress: macAddress,
+      scanDate: scanDate,
+      userAgent: userAgent,
     });
   } catch (err) {
     res.status(500).json({
       error: err.message,
       ip: ip,
+      macAddress: macAddress,
+      scanDate: scanDate,
+      userAgent: userAgent,
     });
   }
 });
