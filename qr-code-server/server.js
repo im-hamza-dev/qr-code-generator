@@ -28,7 +28,7 @@ app.post("/api/scan/:id", async (req, res) => {
     const scanDate = new Date();
 
     // Get geolocation
-    const geo = geoip.lookup(ip);
+    const geo = null; // geoip.lookup(ip);
     const country = geo ? geo.country : "Unknown";
     const city = geo ? geo.city : "Unknown";
 
