@@ -107,6 +107,7 @@ app.post("/api/scan/:id", async (req, res) => {
     );
     res.json({
       message: "success",
+      ip,
       // data: {
       //   req,
       //   ip,
@@ -119,6 +120,7 @@ app.post("/api/scan/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: err.message,
+      ip: ip,
     });
   }
 });
