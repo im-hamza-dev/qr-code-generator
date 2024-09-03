@@ -56,9 +56,10 @@ app.post("/api/qrcodes", async (req, res) => {
       width: 256,
       margin: 1,
     });
-    const total = await new sql.Request().query`SELECT * FROM QRCodes`;
+    let total = await new sql.Request().query`SELECT * FROM QRCodes`;
     total = total.recordset.length + 1;
     // Save to database
+    console.log("total length", total);
     await new sql.Request().query`
        INSERT INTO QRCodes (Id, QRCodeId, RedirectUrl, SquareColor, EyeColor)
        VALUES (${total}, ${id},${redirectUrl}, ${squareColor}, ${eyeColor})
@@ -75,7 +76,6 @@ app.get("/api/qrcodes", async (req, res) => {
   try {
     // const result = localDb;
     const result = await new sql.Request().query`SELECT * FROM QRCodes`;
-    console.log(result);
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -87,7 +87,6 @@ app.get("/api/qrscans", async (req, res) => {
   try {
     // const result = localDb;
     const result = await new sql.Request().query`SELECT * FROM QRScans`;
-    console.log(result);
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -99,7 +98,6 @@ app.post("/api/scan/:id", async (req, res) => {
     const { id } = req.params;
 
     const ip = requestIp.getClientIp(req);
-    console.log(ip);
     const userAgent = req.headers["user-agent"];
     const scanDate = new Date();
 
