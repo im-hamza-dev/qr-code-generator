@@ -1,7 +1,7 @@
 const express = require("express");
 const sql = require("mssql");
 const QRCode = require("qrcode");
-const geoip = require("geoip-lite");
+// const geoip = require("geoip-lite");
 const macaddress = require("macaddress");
 const bodyParser = require("body-parser");
 const requestIp = require("request-ip");

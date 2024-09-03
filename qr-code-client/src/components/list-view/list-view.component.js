@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import axios from "axios";
+import { baseUrl, clientUrl } from "../../constants/api";
 
 let localUrl = "http://localhost:5000/api/scan/5";
 let prodUrl = "https://qr-code-generator-v2-api.vercel.app/api/scan/5";
@@ -10,7 +11,7 @@ const ListView = () => {
 
   useEffect(() => {
     const fetchQRCodes = async () => {
-      const response = await fetch("http://localhost:5000/api/qrcodes");
+      const response = await fetch(`${baseUrl}/api/qrcodes`);
       const data = await response.json();
       setQrCodes(data);
     };
@@ -23,7 +24,7 @@ const ListView = () => {
       {qrCodes.map((qrCode) => (
         <div key={qrCode.id}>
           <QRCode
-            value={`http://localhost:3000/track/${qrCode.id}`}
+            value={`${clientUrl}/track/${qrCode.id}`}
             size={258}
             fgColor={qrCode.squareColor}
             eyeColor={qrCode.eyeColor}

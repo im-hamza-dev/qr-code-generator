@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import "./create-qr.scss";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../constants/api";
 
 const CreateQR = () => {
   const [id, setId] = useState("");
@@ -13,7 +14,7 @@ const CreateQR = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/api/qrcodes", {
+    const response = await fetch(`${baseUrl}/api/qrcodes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, redirectUrl, squareColor, eyeColor }),

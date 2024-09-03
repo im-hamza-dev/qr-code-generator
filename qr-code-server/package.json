@@ -23,7 +23,6 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "fs": "0.0.1-security",
-    "geoip-lite": "^1.4.10",
     "jsonwebtoken": "^8.5.1",
     "macaddress": "^0.5.3",
     "mongoose": "^5.12.9",
