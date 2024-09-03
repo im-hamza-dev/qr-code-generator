@@ -38,6 +38,7 @@ const ListView = () => {
             eyeColor={qrCode.EyeColor}
           />
           <p>ID: {qrCode.Id}</p>
+          <p>QR Code Id: {qrCode.QRCodeId}</p>
           <p>Redirect URL: {qrCode.RedirectUrl}</p>
           {qrScans && (
             <>
