@@ -22,35 +22,80 @@ app.use(
   })
 );
 app.options("*", cors());
+let localDb = [];
+// Create QR Code
+app.post("/api/qrcodes", async (req, res) => {
+  try {
+    const { id, redirectUrl, squareColor, eyeColor } = req.body;
+
+    // Generate QR Code
+    const qrCodeDataUrl = await QRCode.toDataURL(redirectUrl, {
+      color: {
+        dark: squareColor,
+        light: "#ffffff00", // Transparent background
+      },
+      width: 256,
+      margin: 1,
+    });
+
+    localDb.push({
+      id,
+      redirectUrl,
+      squareColor,
+      eyeColor,
+      qrCodeDataUrl,
+    });
+    // // Save to database
+    // await sql.query`
+    //   INSERT INTO QRCodes (Id, RedirectUrl, SquareColor, EyeColor, QRCodeImage)
+    //   VALUES (${id}, ${redirectUrl}, ${squareColor}, ${eyeColor}, ${qrCodeDataUrl})
+    // `;
+
+    res.json({ success: true, qrCodeUrl: qrCodeDataUrl });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all QR Codes
+app.get("/api/qrcodes", async (req, res) => {
+  try {
+    let result = localDb;
+    // const result = await sql.query`SELECT * FROM QRCodes`;
+    console.log(result);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.post("/api/scan/:id", async (req, res) => {
   try {
-    res.json({ message: "success" });
-    // const { id } = req.params;
-    // const ip = requestIp.getClientIp(req);
-    // console.log(ip);
-    // const userAgent = req.headers["user-agent"];
-    // const scanDate = new Date();
+    const { id } = req.params;
+    const ip = requestIp.getClientIp(req);
+    console.log(ip);
+    const userAgent = req.headers["user-agent"];
+    const scanDate = new Date();
 
-    // // Get geolocation
-    // const geo = null; // geoip.lookup(ip);
-    // const country = geo ? geo.country : "Unknown";
-    // const city = geo ? geo.city : "Unknown";
+    // Get geolocation
+    const geo = null; // geoip.lookup(ip);
+    const country = geo ? geo.country : "Unknown";
+    const city = geo ? geo.city : "Unknown";
 
-    // const macAddress = await new Promise((resolve) => {
-    //   macaddress.one((err, mac) => {
-    //     resolve(mac || "Unknown");
-    //   });
-    // });
+    const macAddress = await new Promise((resolve) => {
+      macaddress.one((err, mac) => {
+        resolve(mac || "Unknown");
+      });
+    });
 
-    // res.json({
-    //   message: "success",
-    //   ip,
-    //   macAddress: macAddress,
-    //   scanDate: scanDate,
-    //   userAgent: userAgent,
-    //   country: country,
-    // });
+    res.json({
+      message: "success",
+      ip,
+      macAddress: macAddress,
+      scanDate: scanDate,
+      userAgent: userAgent,
+      country: country,
+    });
   } catch (err) {
     res.status(500).json({
       error: err.message,
