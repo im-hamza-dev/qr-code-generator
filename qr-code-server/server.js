@@ -15,8 +15,12 @@ const httpServer = createServer(app);
 const port = process.env.PORT | 5000;
 
 // Configure Multer for file upload
-app.use(bodyParser.json());
-app.use(cors());
+app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.options("*", cors());
 
 app.post("/api/scan/:id", async (req, res) => {
