@@ -21,31 +21,32 @@ app.options("*", cors());
 
 app.post("/api/scan/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const ip = requestIp.getClientIp(req);
-    console.log(ip);
-    const userAgent = req.headers["user-agent"];
-    const scanDate = new Date();
+    res.json({ message: "success" });
+    // const { id } = req.params;
+    // const ip = requestIp.getClientIp(req);
+    // console.log(ip);
+    // const userAgent = req.headers["user-agent"];
+    // const scanDate = new Date();
 
-    // Get geolocation
-    const geo = null; // geoip.lookup(ip);
-    const country = geo ? geo.country : "Unknown";
-    const city = geo ? geo.city : "Unknown";
+    // // Get geolocation
+    // const geo = null; // geoip.lookup(ip);
+    // const country = geo ? geo.country : "Unknown";
+    // const city = geo ? geo.city : "Unknown";
 
-    const macAddress = await new Promise((resolve) => {
-      macaddress.one((err, mac) => {
-        resolve(mac || "Unknown");
-      });
-    });
+    // const macAddress = await new Promise((resolve) => {
+    //   macaddress.one((err, mac) => {
+    //     resolve(mac || "Unknown");
+    //   });
+    // });
 
-    res.json({
-      message: "success",
-      ip,
-      macAddress: macAddress,
-      scanDate: scanDate,
-      userAgent: userAgent,
-      country: country,
-    });
+    // res.json({
+    //   message: "success",
+    //   ip,
+    //   macAddress: macAddress,
+    //   scanDate: scanDate,
+    //   userAgent: userAgent,
+    //   country: country,
+    // });
   } catch (err) {
     res.status(500).json({
       error: err.message,
