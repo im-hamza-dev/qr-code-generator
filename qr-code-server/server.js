@@ -6,6 +6,7 @@ const macaddress = require("macaddress");
 const bodyParser = require("body-parser");
 const requestIp = require("request-ip");
 const fs = require("fs");
+const geoip = require("fast-geoip");
 
 var cors = require("cors");
 const { createServer } = require("http");
@@ -24,6 +25,20 @@ app.use(
 app.options("*", cors());
 let localDb = [];
 // Create QR Code
+
+// Database configuration
+// const config = {
+//   user: "your_username",
+//   password: "your_password",
+//   server: "your_server",
+//   database: "your_database",
+// };
+
+// // Connect to database
+// sql
+//   .connect(config)
+//   .catch((err) => console.log("Database connection failed:", err));
+
 app.post("/api/qrcodes", async (req, res) => {
   try {
     const { id, redirectUrl, squareColor, eyeColor } = req.body;
@@ -45,11 +60,11 @@ app.post("/api/qrcodes", async (req, res) => {
       eyeColor,
       qrCodeDataUrl,
     });
-    // // Save to database
-    // await sql.query`
-    //   INSERT INTO QRCodes (Id, RedirectUrl, SquareColor, EyeColor, QRCodeImage)
-    //   VALUES (${id}, ${redirectUrl}, ${squareColor}, ${eyeColor}, ${qrCodeDataUrl})
-    // `;
+    // Save to database
+    //   await sql.query`
+    //    INSERT INTO QRCodes (Id, RedirectUrl, SquareColor, EyeColor, QRCodeImage)
+    //    VALUES (${id}, ${redirectUrl}, ${squareColor}, ${eyeColor}, ${qrCodeDataUrl})
+    //  `;
 
     res.json({ success: true, qrCodeUrl: qrCodeDataUrl });
   } catch (err) {
@@ -60,8 +75,20 @@ app.post("/api/qrcodes", async (req, res) => {
 // Get all QR Codes
 app.get("/api/qrcodes", async (req, res) => {
   try {
-    let result = localDb;
+    const result = localDb;
     // const result = await sql.query`SELECT * FROM QRCodes`;
+    console.log(result);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get all QR Codes
+app.get("/api/qrscans", async (req, res) => {
+  try {
+    const result = localDb;
+    // const result = await sql.query`SELECT * FROM QRScans`;
     console.log(result);
     res.json(result);
   } catch (err) {
@@ -72,13 +99,16 @@ app.get("/api/qrcodes", async (req, res) => {
 app.post("/api/scan/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
     const ip = requestIp.getClientIp(req);
     console.log(ip);
     const userAgent = req.headers["user-agent"];
     const scanDate = new Date();
 
     // Get geolocation
-    const geo = null; // geoip.lookup(ip);
+    const geo = await geoip.lookup(ip);
+
+    // const geo = null; // geoip.lookup(ip);
     const country = geo ? geo.country : "Unknown";
     const city = geo ? geo.city : "Unknown";
 
@@ -87,6 +117,12 @@ app.post("/api/scan/:id", async (req, res) => {
         resolve(mac || "Unknown");
       });
     });
+
+    // Log scan to database
+    //   await sql.query`
+    //    INSERT INTO QRScans (QRCodeId, ScanDate, Device, Country, City, MacAddress)
+    //    VALUES (${id}, ${scanDate}, ${userAgent}, ${country}, ${city}, ${macAddress})
+    //  `;
 
     res.json({
       message: "success",
