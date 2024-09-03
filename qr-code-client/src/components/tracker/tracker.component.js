@@ -40,7 +40,7 @@ const Tracker = () => {
             eyeColor={currentQr.eyeColor}
           />
           <p>ID: {currentQr.id}</p>
-          <p>Redirect URL: {currentQr.redirectUrl}</p>
+          <p>Redirecting to {currentQr.redirectUrl}</p>
           <hr />
         </div>
       )}
