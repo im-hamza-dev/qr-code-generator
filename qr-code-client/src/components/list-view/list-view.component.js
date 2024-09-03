@@ -8,6 +8,7 @@ let prodUrl = "https://qr-code-generator-v2-api.vercel.app/api/scan/5";
 
 const ListView = () => {
   const [qrCodes, setQrCodes] = useState([]);
+  const [qrScans, setQrScans] = useState([]);
 
   useEffect(() => {
     const fetchQRCodes = async () => {
@@ -16,21 +17,47 @@ const ListView = () => {
       setQrCodes(data);
     };
     fetchQRCodes();
+    const fetchQRScans = async () => {
+      const response = await fetch(`${baseUrl}/api/qrscans`);
+      const data = await response.json();
+      setQrScans(data);
+    };
+    fetchQRCodes();
+    fetchQRScans();
   }, []);
 
   return (
     <div>
       <h2>All QR Codes</h2>
       {qrCodes.map((qrCode) => (
-        <div key={qrCode.id}>
+        <div key={qrCode.Id}>
           <QRCode
-            value={`${clientUrl}/track/${qrCode.id}`}
+            value={`${clientUrl}/track/${qrCode.Id}`}
             size={258}
-            fgColor={qrCode.squareColor}
-            eyeColor={qrCode.eyeColor}
+            fgColor={qrCode.SquareColor}
+            eyeColor={qrCode.EyeColor}
           />
-          <p>ID: {qrCode.id}</p>
-          <p>Redirect URL: {qrCode.redirectUrl}</p>
+          <p>ID: {qrCode.Id}</p>
+          <p>Redirect URL: {qrCode.RedirectUrl}</p>
+          {qrScans && (
+            <>
+              <hr />
+              <div>
+                {qrScans?.map((x) =>
+                  x.QRCodeId == qrCode.Id ? (
+                    <div>
+                      <div>
+                        Country: {x.Country}, {x.City}
+                      </div>
+                      <div>Timestamp: {x.ScanDateTime}</div>
+                      <div>MacAddress: {x.MacAddress}</div>
+                      <div>Agent: {x.DeviceDetails}</div>
+                    </div>
+                  ) : null
+                )}
+              </div>
+            </>
+          )}
           <hr />
         </div>
       ))}

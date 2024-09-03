@@ -15,14 +15,15 @@ const Tracker = () => {
     const fetchQRCodes = async () => {
       const response = await fetch(`${baseUrl}/api/qrcodes`);
       const data = await response.json();
-      let currentQr_ = data?.find((x) => x.id === params?.id);
+      let currentQr_ = data?.find((x) => x.Id == params?.id);
+      console.log(data, currentQr_, params);
       setCurrentQr(currentQr_);
       axios
         .post(`${baseUrl}/api/scan/${params?.id}`)
         .then((result) => {
           console.log("result", result, window.location, currentQr_);
           //   navigate(`https://${currentQr_.redirectUrl}`);
-          window.open(`https://${currentQr_.redirectUrl}`);
+          window.open(`https://${currentQr_.RedirectUrl}`);
         })
         .catch((err) => {
           console.log("error", err);
@@ -33,15 +34,15 @@ const Tracker = () => {
   return (
     <div>
       {currentQr && (
-        <div key={currentQr?.id}>
+        <div key={currentQr?.Id}>
           <QRCode
-            value={`${clientUrl}/track/${currentQr?.id}`}
+            value={`${clientUrl}/track/${currentQr?.Id}`}
             size={258}
-            fgColor={currentQr.squareColor}
-            eyeColor={currentQr.eyeColor}
+            fgColor={currentQr.SquareColor}
+            eyeColor={currentQr.EyeColor}
           />
-          <p>ID: {currentQr.id}</p>
-          <p>Redirecting to {currentQr.redirectUrl}</p>
+          <p>ID: {currentQr.Id}</p>
+          <p>Redirecting to {currentQr.RedirectUrl}</p>
           <hr />
         </div>
       )}
