@@ -61,8 +61,8 @@ app.post("/api/qrcodes", async (req, res) => {
     // Save to database
     console.log("total length", total);
     await new sql.Request().query`
-       INSERT INTO QRCodes (Id, QRCodeId, RedirectUrl, SquareColor, EyeColor)
-       VALUES (${total}, ${id},${redirectUrl}, ${squareColor}, ${eyeColor})
+       INSERT INTO QRCodes (QRCodeId, RedirectUrl, SquareColor, EyeColor)
+       VALUES (${id},${redirectUrl}, ${squareColor}, ${eyeColor})
      `;
 
     res.json({ success: true });
