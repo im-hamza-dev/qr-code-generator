@@ -77,7 +77,7 @@ app.post("/api/qrcodes", async (req, res) => {
       margin: 1,
     });
     // Save to database
-    await new sql.Request().query`
+    await sql.query`
        INSERT INTO QRCodes (QRCodeId, RedirectUrl, SquareColor, EyeColor)
        VALUES (${id},${redirectUrl}, ${squareColor}, ${eyeColor})
      `;
@@ -92,7 +92,7 @@ app.post("/api/qrcodes", async (req, res) => {
 app.get("/api/qrcodes", async (req, res) => {
   try {
     // const result = localDb;
-    const result = await new sql.Request().query`SELECT * FROM QRCodes`;
+    const result = await sql.query`SELECT * FROM QRCodes`;
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -103,7 +103,7 @@ app.get("/api/qrcodes", async (req, res) => {
 app.get("/api/qrscans", async (req, res) => {
   try {
     // const result = localDb;
-    const result = await new sql.Request().query`SELECT * FROM QRScans`;
+    const result = await sql.query`SELECT * FROM QRScans`;
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -132,7 +132,7 @@ app.post("/api/scan/:id", async (req, res) => {
     });
 
     // Log scan to database
-    await new sql.Request().query`
+    await sql.query`
        INSERT INTO QRScans (QRCodeId, ScanDateTime, DeviceDetails, Country, City, MacAddress)
        VALUES (${id}, ${scanDate}, ${userAgent}, ${country}, ${city}, ${macAddress})
      `;
