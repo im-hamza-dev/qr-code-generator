@@ -106,12 +106,12 @@ app.post("/api/scan/:id", async (req, res) => {
 
     
     const ip = requestIp.getClientIp(req);
-    console.log(ip)
     const userAgent = req.headers["user-agent"];
     const scanDate = new Date();
-
+    
     // Get geolocation
     const geo = await geoip.lookup(ip);
+    console.log(ip, geo)
 
     // const geo = null; // geoip.lookup(ip);
     const country = geo ? geo.country : "Unknown";
