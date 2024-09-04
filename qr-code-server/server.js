@@ -91,8 +91,8 @@ app.post("/api/qrcodes", async (req, res) => {
 // Get all QR Codes
 app.get("/api/qrcodes", async (req, res) => {
   try {
-    // const result = localDb;
-    const result = await sql.query`SELECT * FROM QRCodes`;
+    const result = localDb;
+    // const result = await sql.query`SELECT * FROM QRCodes`;
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -104,6 +104,7 @@ app.get("/api/qrscans", async (req, res) => {
   try {
     // const result = localDb;
     const result = await sql.query`SELECT * FROM QRScans`;
+    console.log('scan output:',result)
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
