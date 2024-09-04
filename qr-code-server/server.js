@@ -13,7 +13,7 @@ const { createServer } = require("http");
 
 const app = express();
 const httpServer = createServer(app);
-const port = process.env.PORT | 5005;
+const port = process.env.PORT | 5000;
 
 // Configure Multer for file upload
 app.use(express.json());
@@ -88,8 +88,8 @@ app.post("/api/qrcodes", async (req, res) => {
 // Get all QR Codes
 app.get("/api/qrcodes", async (req, res) => {
   try {
-    const result = localDb;
-    // const result = await sql.query`SELECT * FROM QRCodes`;
+    // const result = localDb;
+    const result = await sql.query`SELECT * FROM QRCodes`;
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
