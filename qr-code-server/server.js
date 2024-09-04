@@ -37,7 +37,7 @@ var config = {
   pool: {
     max: 10,
     min: 0,
-    idleTimeoutMillis: 30000
+    idleTimeoutMillis: 30000,
   },
 };
 
@@ -50,12 +50,16 @@ var config = {
 //   console.log("Connection DB Successful!");
 // });
 
-(async () => {
-  try {
-   // make sure that any items are correctly URL encoded in the connection string
-   await sql.connect(config)
-   console.log('connection successfull DB')
-   
+try {
+  // make sure that any items are correctly URL encoded in the connection string
+  sql.connect(config);
+  console.log("connection successfull DB");
+} catch (err) {
+  console.log("connection failed DB");
+
+  // ... error checks
+}
+
 app.post("/api/qrcodes", async (req, res) => {
   try {
     const { id, redirectUrl, squareColor, eyeColor } = req.body;
@@ -97,7 +101,7 @@ app.get("/api/qrscans", async (req, res) => {
   try {
     // const result = localDb;
     const result = await sql.query`SELECT * FROM QRScans`;
-    console.log('scan output:',result)
+    console.log("scan output:", result);
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -151,11 +155,3 @@ app.post("/api/scan/:id", async (req, res) => {
 httpServer.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
-
-  } catch (err) {
-   console.log('connection failed DB')
-
-   // ... error checks
-  }
- })()
-
