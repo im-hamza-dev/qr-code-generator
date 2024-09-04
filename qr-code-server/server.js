@@ -41,14 +41,7 @@ var config = {
   },
 };
 
-// Connect to SQL Server
-// sql.connect(config, (err) => {
-//   if (err) {
-//     console.log('connection failed error')
-//     throw err;
-//   }
-//   console.log("Connection DB Successful!");
-// });
+
 
 try {
   // make sure that any items are correctly URL encoded in the connection string
@@ -101,7 +94,6 @@ app.get("/api/qrscans", async (req, res) => {
   try {
     // const result = localDb;
     const result = await sql.query`SELECT * FROM QRScans`;
-    console.log("scan output:", result);
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -112,7 +104,9 @@ app.post("/api/scan/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
+    
     const ip = requestIp.getClientIp(req);
+    console.log(ip)
     const userAgent = req.headers["user-agent"];
     const scanDate = new Date();
 
