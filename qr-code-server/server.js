@@ -28,7 +28,7 @@ let localDb = [];
 var config = {
   user: "QRUser",
   password: "2024QrUser",
-  // port: 19411,
+  port: 19411,
   server: "mssql-66596-0.cloudclusters.net",
   database: "QRDatabase",
   options: {
