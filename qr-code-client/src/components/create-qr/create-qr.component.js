@@ -11,6 +11,7 @@ const CreateQR = () => {
   const [eyeColor, setEyeColor] = useState("#000000");
   const [qrCode, setQrCode] = useState(null);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
@@ -64,13 +65,25 @@ const CreateQR = () => {
       </button>
       <br />
       {qrCode && (
-        <QRCode
-          value={redirectUrl}
-          size={256}
-          fgColor={squareColor}
-          eyeColor={eyeColor}
-        />
+        <qr-code
+        contents={redirectUrl}
+        module-color={squareColor}
+        position-ring-color={eyeColor}
+        position-center-color={eyeColor}
+        style={{
+
+          width: '200px',
+          height: '200px',
+          margin: '2em auto',
+          backgroundColor: '#fff'
+        }}
+        
+      >
+      </qr-code>
       )}
+      <div id='qrcode'></div>
+      
+
     </div>
   );
 };

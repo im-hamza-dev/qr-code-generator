@@ -32,12 +32,22 @@ const Tracker = () => {
     <div>
       {currentQr && (
         <div key={currentQr?.Id}>
-          <QRCode
-            value={`${clientUrl}/track/${currentQr?.Id}`}
-            size={258}
-            fgColor={currentQr.SquareColor}
-            eyeColor={currentQr.EyeColor}
-          />
+          
+          <qr-code
+        contents={`${clientUrl}/track/${currentQr?.Id}`}
+        module-color={currentQr.SquareColor}
+        position-ring-color={currentQr.EyeColor}
+        position-center-color={currentQr.EyeColor}
+        style={{
+
+          width: '200px',
+          height: '200px',
+          margin: '2em auto',
+          backgroundColor: '#fff'
+        }}
+        
+      >
+      </qr-code>
           <p>ID: {currentQr.Id}</p>
           <p>Redirecting to {currentQr.RedirectUrl}</p>
           <hr />

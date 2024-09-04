@@ -39,12 +39,22 @@ const ListView = () => {
       <h2>All QR Codes</h2>
       {qrCodes?.length > 0 && qrCodes?.map((qrCode) => (
         <div key={qrCode.Id}>
-          <QRCode
-            value={`${clientUrl}/track/${qrCode.Id}`}
-            size={258}
-            fgColor={qrCode.SquareColor}
-            eyeColor={qrCode.EyeColor}
-          />
+          
+           <qr-code
+        contents={`${clientUrl}/track/${qrCode.Id}`}
+        module-color={qrCode.SquareColor}
+        position-ring-color={qrCode.EyeColor}
+        position-center-color={qrCode.EyeColor}
+        style={{
+
+          width: '200px',
+          height: '200px',
+          margin: '2em auto',
+          backgroundColor: '#fff'
+        }}
+        
+      >
+      </qr-code>
           <p>ID: {qrCode.Id}</p>
           <p>QR Code Id: {qrCode.QRCodeId}</p>
           <p>Redirect URL: {qrCode.RedirectUrl}</p>
