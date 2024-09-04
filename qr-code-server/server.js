@@ -25,10 +25,10 @@ app.use(
 app.options("*", cors());
 let localDb = [];
 
-var config = sql.connect({
+var config = {
   user: "QRUser",
   password: "2024QrUser",
-  port: 19411,
+  // port: 19411,
   server: "mssql-66596-0.cloudclusters.net",
   database: "QRDatabase",
   options: {
@@ -39,15 +39,30 @@ var config = sql.connect({
     min: 0,
     idleTimeoutMillis: 30000
   },
-});
+};
 
 // Connect to SQL Server
-sql.connect(config, (err) => {
-  if (err) {
-    throw err;
+// sql.connect(config, (err) => {
+//   if (err) {
+//     console.log('connection failed error')
+//     throw err;
+//   }
+//   console.log("Connection DB Successful!");
+// });
+
+(async () => {
+  try {
+   // make sure that any items are correctly URL encoded in the connection string
+   await sql.connect(config)
+   console.log('connection successfull DB')
+  } catch (err) {
+   console.log('connection failed DB')
+
+   // ... error checks
   }
-  console.log("Connection DB Successful!");
-});
+ })()
+
+
 app.post("/api/qrcodes", async (req, res) => {
   try {
     const { id, redirectUrl, squareColor, eyeColor } = req.body;
@@ -61,10 +76,7 @@ app.post("/api/qrcodes", async (req, res) => {
       width: 256,
       margin: 1,
     });
-    let total = await new sql.Request().query`SELECT * FROM QRCodes`;
-    total = total.recordset.length + 1;
     // Save to database
-    console.log("total length", total);
     await new sql.Request().query`
        INSERT INTO QRCodes (QRCodeId, RedirectUrl, SquareColor, EyeColor)
        VALUES (${id},${redirectUrl}, ${squareColor}, ${eyeColor})
