@@ -13,7 +13,7 @@ const { createServer } = require("http");
 
 const app = express();
 const httpServer = createServer(app);
-const port = process.env.PORT | 5000;
+const port = process.env.PORT | 5005;
 
 // Configure Multer for file upload
 app.use(express.json());
