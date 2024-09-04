@@ -13,15 +13,17 @@ const CreateQR = () => {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(`${baseUrl}/api/qrcodes`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, redirectUrl, squareColor, eyeColor }),
-    });
-    const data = await response.json();
-    console.log(data);
-    setQrCode(true);
+    try{
+      const response = await fetch(`${baseUrl}/api/qrcodes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, redirectUrl, squareColor, eyeColor }),
+      });
+      const data = await response.json();
+      setQrCode(true);
+    }catch(err){
+      console.log('Error saving QR Code: ',err)
+    }
   };
 
   return (

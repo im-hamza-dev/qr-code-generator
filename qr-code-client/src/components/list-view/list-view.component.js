@@ -12,15 +12,23 @@ const ListView = () => {
 
   useEffect(() => {
     const fetchQRCodes = async () => {
-      const response = await fetch(`${baseUrl}/api/qrcodes`);
-      const data = await response.json();
-      setQrCodes(data);
+      try{
+        const response = await fetch(`${baseUrl}/api/qrcodes`);
+        const data = await response.json();
+        setQrCodes(data);
+      }catch(error){
+        console.log('Error fetching data:', error)
+      }
     };
     fetchQRCodes();
     const fetchQRScans = async () => {
-      const response = await fetch(`${baseUrl}/api/qrscans`);
-      const data = await response.json();
-      setQrScans(data);
+      try{
+        const response = await fetch(`${baseUrl}/api/qrscans`);
+        const data = await response.json();
+        setQrScans(data);
+      }catch(error){
+        console.log('Error fetching scans:', error)
+      }
     };
     fetchQRCodes();
     fetchQRScans();

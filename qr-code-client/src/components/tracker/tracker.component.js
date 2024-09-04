@@ -10,19 +10,16 @@ const Tracker = () => {
   const params = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(params?.id);
 
     const fetchQRCodes = async () => {
       const response = await fetch(`${baseUrl}/api/qrcodes`);
       const data = await response.json();
       let currentQr_ = data?.find((x) => x.Id == params?.id);
-      console.log(data, currentQr_, params);
       setCurrentQr(currentQr_);
       axios
         .post(`${baseUrl}/api/scan/${params?.id}`)
         .then((result) => {
-          console.log("result", result, window.location, currentQr_);
-          //   navigate(`https://${currentQr_.redirectUrl}`);
+          console.log("result", result, window.location, currentQr_, data);
           window.open(`https://${currentQr_.RedirectUrl}`);
         })
         .catch((err) => {

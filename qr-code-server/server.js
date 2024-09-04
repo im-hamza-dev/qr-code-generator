@@ -34,6 +34,11 @@ var config = sql.connect({
   options: {
     encrypt: false, // Disable encryption
   },
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000
+  },
 });
 
 // Connect to SQL Server
