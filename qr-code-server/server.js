@@ -105,7 +105,7 @@ app.post("/api/scan/:id", async (req, res) => {
     const { id } = req.params;
 
     
-    const ip = requestIp.getClientIp(req);
+    const ip = requestIp.getClientIp(req)?.replace("::ffff:","");
     const userAgent = req.headers["user-agent"];
     const scanDate = new Date();
     
