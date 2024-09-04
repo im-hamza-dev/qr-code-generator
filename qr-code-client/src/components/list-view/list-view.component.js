@@ -37,7 +37,7 @@ const ListView = () => {
   return (
     <div>
       <h2>All QR Codes</h2>
-      {qrCodes.map((qrCode) => (
+      {qrCodes?.length > 0 && qrCodes?.map((qrCode) => (
         <div key={qrCode.Id}>
           <QRCode
             value={`${clientUrl}/track/${qrCode.Id}`}
