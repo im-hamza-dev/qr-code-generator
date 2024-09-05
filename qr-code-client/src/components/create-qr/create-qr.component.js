@@ -14,7 +14,7 @@ const CreateQR = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       const response = await fetch(`${baseUrl}/api/qrcodes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -22,8 +22,8 @@ const CreateQR = () => {
       });
       const data = await response.json();
       setQrCode(true);
-    }catch(err){
-      console.log('Error saving QR Code: ',err)
+    } catch (err) {
+      console.log("Error saving QR Code: ", err);
     }
   };
 
@@ -66,24 +66,19 @@ const CreateQR = () => {
       <br />
       {qrCode && (
         <qr-code
-        contents={redirectUrl}
-        module-color={squareColor}
-        position-ring-color={eyeColor}
-        position-center-color={eyeColor}
-        style={{
-
-          width: '200px',
-          height: '200px',
-          margin: '2em auto',
-          backgroundColor: '#fff'
-        }}
-        
-      >
-      </qr-code>
+          contents={redirectUrl}
+          module-color={squareColor}
+          position-ring-color={squareColor}
+          position-center-color={eyeColor}
+          style={{
+            width: "200px",
+            height: "200px",
+            margin: "2em auto",
+            backgroundColor: "#fff",
+          }}
+        ></qr-code>
       )}
-      <div id='qrcode'></div>
-      
-
+      <div id="qrcode"></div>
     </div>
   );
 };
