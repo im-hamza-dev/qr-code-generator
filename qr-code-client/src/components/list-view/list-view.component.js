@@ -12,22 +12,22 @@ const ListView = () => {
 
   useEffect(() => {
     const fetchQRCodes = async () => {
-      try{
+      try {
         const response = await fetch(`${baseUrl}/api/qrcodes`);
         const data = await response.json();
         setQrCodes(data);
-      }catch(error){
-        console.log('Error fetching data:', error)
+      } catch (error) {
+        console.log("Error fetching data:", error);
       }
     };
     fetchQRCodes();
     const fetchQRScans = async () => {
-      try{
+      try {
         const response = await fetch(`${baseUrl}/api/qrscans`);
         const data = await response.json();
         setQrScans(data);
-      }catch(error){
-        console.log('Error fetching scans:', error)
+      } catch (error) {
+        console.log("Error fetching scans:", error);
       }
     };
     fetchQRCodes();
@@ -37,49 +37,46 @@ const ListView = () => {
   return (
     <div>
       <h2>All QR Codes</h2>
-      {qrCodes?.length > 0 && qrCodes?.map((qrCode) => (
-        <div key={qrCode.Id}>
-          
-           <qr-code
-        contents={`${clientUrl}/track/${qrCode.Id}`}
-        module-color={qrCode.SquareColor}
-        position-ring-color={qrCode.EyeColor}
-        position-center-color={qrCode.EyeColor}
-        style={{
-
-          width: '200px',
-          height: '200px',
-          margin: '2em auto',
-          backgroundColor: '#fff'
-        }}
-        
-      >
-      </qr-code>
-          <p>ID: {qrCode.Id}</p>
-          <p>QR Code Id: {qrCode.QRCodeId}</p>
-          <p>Redirect URL: {qrCode.RedirectUrl}</p>
-          {qrScans.length > 0 && (
-            <>
-              <hr />
-              <div>
-                {qrScans?.map((x) =>
-                  x.QRCodeId == qrCode.Id ? (
-                    <div>
+      {qrCodes?.length > 0 &&
+        qrCodes?.map((qrCode) => (
+          <div key={qrCode.Id}>
+            <qr-code
+              contents={`${clientUrl}/track/${qrCode.Id}`}
+              module-color={qrCode.SquareColor}
+              position-ring-color={qrCode.SquareColor}
+              position-center-color={qrCode.EyeColor}
+              style={{
+                width: "200px",
+                height: "200px",
+                margin: "2em auto",
+                backgroundColor: "#fff",
+              }}
+            ></qr-code>
+            <p>ID: {qrCode.Id}</p>
+            <p>QR Code Id: {qrCode.QRCodeId}</p>
+            <p>Redirect URL: {qrCode.RedirectUrl}</p>
+            {qrScans.length > 0 && (
+              <>
+                <hr />
+                <div>
+                  {qrScans?.map((x) =>
+                    x.QRCodeId == qrCode.Id ? (
                       <div>
-                        Country: {x.Country}, {x.City}
+                        <div>
+                          Country: {x.Country}, {x.City}
+                        </div>
+                        <div>Timestamp: {x.ScanDateTime}</div>
+                        <div>MacAddress: {x.MacAddress}</div>
+                        <div>Agent: {x.DeviceDetails}</div>
                       </div>
-                      <div>Timestamp: {x.ScanDateTime}</div>
-                      <div>MacAddress: {x.MacAddress}</div>
-                      <div>Agent: {x.DeviceDetails}</div>
-                    </div>
-                  ) : null
-                )}
-              </div>
-            </>
-          )}
-          <hr />
-        </div>
-      ))}
+                    ) : null
+                  )}
+                </div>
+              </>
+            )}
+            <hr />
+          </div>
+        ))}
     </div>
   );
 };
