@@ -4,6 +4,7 @@ import "./App.css";
 import ListView from "./components/list-view/list-view.component";
 import CreateQR from "./components/create-qr/create-qr.component";
 import Tracker from "./components/tracker/tracker.component";
+import CustomQr from "./components/custom-qr/custom-qr";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <header className="App-header">
         <BrowserRouter>
           <Routes>
+            <Route path="/custom-qr" element={<CustomQr />} />
             <Route path="/track/:id" element={<Tracker />} />
             <Route path="/list" element={<ListView />} />
             <Route path="/" element={<CreateQR />} />
